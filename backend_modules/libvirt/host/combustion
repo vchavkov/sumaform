@@ -37,7 +37,7 @@ nm_config 1 eth0 auto
 nm_config 2 eth1 manual
 
 # Set linux as password for root
-echo 'root:$6$3aQC9rrDLHiTf1yR$NoKe9tko0kFIpu0rQ2y/OzOOtbVvs0Amr2bx0T4cGf6aq8PG74EmVy8lSDJdbLVVFpOSzwELWyReRCiPHa7DG0' | chpasswd -e
+echo 'root:$6$UIdkjIn9ZSzxFyK.$1bZcEOFn6I/faHTGiYTKjlGE4loXq2yMghGMiW9VJgY9QNJrbhs9uRaPbR5loRlK0Dm8GOgvupyYFgdBNNI9x0' | chpasswd -e
 
 # SL Micro6: Add PermitRootLogin to sshd config
 %{ if image == "slmicro60o" || image == "slmicro61o" }
@@ -52,77 +52,77 @@ systemctl enable sshd.service
 ${ gpg_keys }
 
 # Add repositories
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/15.5/ ca_suse
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.opensuse.org" }/repositories/SUSE:/CA/15.5/ ca_suse
 
 %{ if image == "leapmicro55o" }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/ client_tools_repo
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/ client_tools_repo
 
 %{ if container_server || container_proxy }
 %{ if product_version == "uyuni-master" || product_version == "uyuni-pr" }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_Micro_5.5/ container_utils
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_Micro_5.5/ container_utils
 %{ else }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/ContainerUtils/openSUSE_Leap_Micro_5.5/ container_utils
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/ContainerUtils/openSUSE_Leap_Micro_5.5/ container_utils
 %{ endif }
 %{ endif }
 
 %{ if testsuite }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
 
 # Leap repos are required to install expect
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/distribution/leap/15.5/repo/oss/ leap_pool_repo
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/update/leap/15.5/oss/ leap_update_repo
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.opensuse.org" }/distribution/leap/15.5/repo/oss/ leap_pool_repo
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.opensuse.org" }/update/leap/15.5/oss/ leap_update_repo
 %{ endif }
 
 %{ if container_runtime == "k3s" }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/update/leap/15.5/sle/ sle_update_repo
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.opensuse.org" }/update/leap/15.5/sle/ sle_update_repo
 %{ endif }
 %{ endif } # end of image == "leapmicro55o" block
 
 %{ if image == "slmicro60o" }
-zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SL-Micro/6.0/x86_64/product/ os_pool_repo
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.suse.de/ibs"}/SUSE/Products/SL-Micro/6.0/x86_64/product/ os_pool_repo
 
 # SL Micro 6.0 is being used in both Uyuni and SUSE Manager
 # we do not support yet Leap Micro 6.0, even in Uyuni
 %{ if product_version == "uyuni-master" || product_version == "uyuni-released" || product_version == "uyuni-pr" }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/SLMicro6-Uyuni-Client-Tools/SL-Micro6/ client_tools_repo
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/SLMicro6-Uyuni-Client-Tools/SL-Micro6/ client_tools_repo
 %{ else }
-zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SUSE-Manager-Tools-For-SL-Micro/6/x86_64/product/ tools_pool_repo
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.suse.de/ibs"}/SUSE/Products/SUSE-Manager-Tools-For-SL-Micro/6/x86_64/product/ tools_pool_repo
 %{ endif }
 
 %{ if testsuite }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
 %{ endif }
 %{ endif } # end of image == "slmicro60o" block
 
 %{ if image == "slmicro61o" }
-zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SL-Micro/6.1/x86_64/product/ os_pool_repo
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.suse.de/ibs"}/SUSE/Products/SL-Micro/6.1/x86_64/product/ os_pool_repo
 
 # SL Micro 6.1 is being used in both Uyuni and SUSE Manager
 # we do not support yet Leap Micro 6.1, even in Uyuni
 %{ if product_version == "uyuni-master" || product_version == "uyuni-released" || product_version == "uyuni-pr" }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/SLMicro6-Uyuni-Client-Tools/SL-Micro6/ client_tools_repo
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/SLMicro6-Uyuni-Client-Tools/SL-Micro6/ client_tools_repo
 %{ else }
-zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SUSE-Manager-Tools-For-SL-Micro/6/x86_64/product/ tools_pool_repo
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.suse.de/ibs"}/SUSE/Products/SUSE-Manager-Tools-For-SL-Micro/6/x86_64/product/ tools_pool_repo
 %{ endif }
 
 %{ if container_server || container_proxy }
 %{ if product_version == "uyuni-master" || product_version == "uyuni-pr" }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_16.0/ container_utils
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_16.0/ container_utils
 %{ else }
 %{ if container_server }
-zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Multi-Linux-Manager-Server-5.1-x86_64/ container_utils
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.suse.de/ibs"}/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Multi-Linux-Manager-Server-5.1-x86_64/ container_utils
 %{ endif }
 %{ if container_proxy }
-zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Multi-Linux-Manager-Proxy-5.1-x86_64/ container_utils
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.suse.de/ibs"}/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Multi-Linux-Manager-Proxy-5.1-x86_64/ container_utils
 %{ endif }
 %{ endif }
 %{ endif }
 
 %{ if testsuite }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
+zypper ar http://${ use_mirror_images ? proxy_cache : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
 
 # Leap repos are required to install expect
-zypper ar --no-gpgcheck http://${ use_mirror_images ? mirror : "download.opensuse.org" }/distribution/leap/16.0/repo/oss/ leap_pool_repo
+zypper ar --no-gpgcheck http://${ use_mirror_images ? proxy_cache : "download.opensuse.org" }/distribution/leap/16.0/repo/oss/ leap_pool_repo
 %{ endif }
 %{ endif } # end of image == "slmicro61o" block
 

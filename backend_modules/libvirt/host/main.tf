@@ -57,6 +57,7 @@ data "template_file" "user_data" {
     image               = var.image
     use_mirror_images   = var.base_configuration["use_mirror_images"]
     mirror              = var.base_configuration["mirror"]
+    proxy_cache         = var.base_configuration["proxy_cache"]
     install_salt_bundle = var.install_salt_bundle
     container_server    = contains(var.roles, "server_containerized")
     container_proxy     = contains(var.roles, "proxy_containerized")
@@ -84,6 +85,7 @@ data "template_file" "combustion" {
   ])
     use_mirror_images   = var.base_configuration["use_mirror_images"]
     mirror              = var.base_configuration["mirror"]
+    proxy_cache         = var.base_configuration["proxy_cache"]
     install_salt_bundle = var.install_salt_bundle
     container_server    = contains(var.roles, "server_containerized")
     container_proxy     = contains(var.roles, "proxy_containerized")

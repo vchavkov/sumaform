@@ -8,6 +8,7 @@ module "base_backend" {
   use_ntp                  = var.use_ntp
   ssh_key_path             = var.ssh_key_path
   mirror                   = var.mirror
+  proxy_cache              = var.proxy_cache
   use_mirror_images        = var.use_mirror_images
   use_avahi                = var.use_avahi
   domain                   = var.domain
@@ -29,6 +30,7 @@ output "configuration" {
     use_ntp                  = var.use_ntp
     ssh_key_path             = var.ssh_key_path
     mirror                   = var.mirror
+    proxy_cache              = var.proxy_cache
     use_mirror_images        = var.use_mirror_images
     use_avahi                = var.use_avahi
     domain                   = var.domain
